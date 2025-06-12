@@ -1,5 +1,3 @@
-#import menu_principal
-
 import json
 import os
 
@@ -67,14 +65,12 @@ def excluir_filme(catalogo):
         return catalogo
     
     nome_para_excluir = input("Digite o nome do filme que deseja excluir: ")
-    # Cria uma nova lista sem o filme a ser excluído (ignorando maiúsculas/minúsculas)
     catalogo_atualizado = [filme for filme in catalogo if filme['nome'].lower() != nome_para_excluir.lower()]
 
-    # Verifica se a lista mudou de tamanho (se o filme foi encontrado e removido)
     if len(catalogo_atualizado) < len(catalogo):
-        salvar_filmes(catalogo_atualizado) # Salva a lista atualizada no arquivo
+        salvar_filmes(catalogo_atualizado)
         print(f"Filme '{nome_para_excluir}' foi excluído com sucesso!")
-        return catalogo_atualizado # Retorna o novo catálogo
+        return catalogo_atualizado
     else:
         print(f"Filme '{nome_para_excluir}' não encontrado no catálogo.")
         return catalogo
@@ -87,11 +83,9 @@ def mostrar_filmes(catalogo):
         print(f'Gênero: {filme['genero']}')
         print(f'Ano de Lançamento: {filme['lancamento']}')
         print(f'Duração: {((filme['duracao'])//60)}h {((filme['duracao'])%60)}min')
+        print(' ')
 
 
 
 #Variáveis
 catalogo = carregar_filmes()
-
-excluir_filme(catalogo)
-mostrar_filmes(catalogo)
