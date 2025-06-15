@@ -9,7 +9,8 @@ while True: # loop principal
           
     while True: # loop escolha
         if resposta == "1": # primeira escolha
-                
+            
+            u_a.cabecalho_cinemax()
             filmes.mostrar_filmes(filmes.catalogo)
                 
             print("[1] Sair")
@@ -21,7 +22,6 @@ while True: # loop principal
             else:
                 u_a.limpar_console()
                 u_a.msg_numero_valido()
-                u_a.cabecalho_cinemax()
         elif resposta == "2": # segunda escolha
             u_a.cabecalho_cinemax()
                 
