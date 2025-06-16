@@ -16,7 +16,7 @@ while True: # loop principal
             print("[1] Sair")
             print(" ")
             
-            if int(input("Digite sua escolha: ")) == 1:
+            if input("Digite sua escolha: ") == "1":
                 u_a.limpar_console()
                 break
             else:
@@ -31,7 +31,7 @@ while True: # loop principal
             print("[2] Cadastrar-se")
             print("[3] Sair")
                 
-            if int(input("Digite sua escolha: ")) == 3:
+            if input("Digite sua escolha: ") == "3":
                 u_a.limpar_console()
                 break
             else:
