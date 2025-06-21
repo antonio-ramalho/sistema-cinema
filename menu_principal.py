@@ -1,6 +1,7 @@
 
 import filmes
 import utils_armazenamento as u_a
+import modulo_salas as m_s
 
 while True: # loop principal
     u_a.cabecalho_cinemax()
@@ -8,7 +9,8 @@ while True: # loop principal
     u_a.limpar_console()
           
     while True: # loop escolha
-        if resposta == "1": # primeira escolha
+        
+        if resposta == "1": # primeira escolha do loop
             
             u_a.cabecalho_cinemax()
             filmes.mostrar_filmes(filmes.catalogo)
@@ -22,26 +24,22 @@ while True: # loop principal
             else:
                 u_a.limpar_console()
                 u_a.msg_numero_valido()
-        elif resposta == "2": # segunda escolha
-            u_a.cabecalho_cinemax()
                 
-            # Inicio do modulo 
+        elif resposta == "2": # segunda escolha do loop
                 
-            print("[1] Entrar")
-            print("[2] Cadastrar-se")
-            print("[3] Sair")
-                
-            if input("Digite sua escolha: ") == "3":
-                u_a.limpar_console()
+            # Inicio do modulo salas e sessoes
+            contador_saida_modulo = m_s.modulo_filmes_salas()
+            
+            if contador_saida_modulo == True:
                 break
-            else:
-                u_a.limpar_console()
-                u_a.msg_numero_valido()  
-        elif resposta == "3": # terceira escolha
+            # Fim do modulo 
+            
+        elif resposta == "3": # terceira escolha do loop
             u_a.cabecalho_cinemax()
             print("Obrigado pela preferência, volte sempre!".center(60))
             print("-" * 60)
             exit()
-        else:
+        else: # Tudo aqui que não aparece na tela
             u_a.msg_numero_valido()
             break
+        

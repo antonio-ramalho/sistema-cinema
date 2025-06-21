@@ -85,7 +85,5 @@ def mostrar_filmes(catalogo):
         print(f'Duração: {((filme['duracao'])//60)}h {((filme['duracao'])%60)}min')
         print(' ')
 
-
-
 #Variáveis
 catalogo = carregar_filmes()
