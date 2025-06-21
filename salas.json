@@ -1,0 +1,31 @@
+[
+  {
+    "nome_sala": "alpha",
+    "sala_id": 1,
+    "numero_assentos": 25,
+    "quantidade_sessoes": 1,
+    "sessoes_associadas": [
+      {
+        "sala_sessao": "alpha",
+        "id_sessao": 1,
+        "id_sala": 1,
+        "horario_inicio": "09:00",
+        "horario_termino": "10:00",
+        "tempo_sessao": 100,
+        "numero_assentos": 25
+      }
+    ]
+  },
+  {
+    "nome_sala": "beta",
+    "sala_id": 2,
+    "numero_assentos": 50,
+    "quantidade_sessoes": 0
+  },
+  {
+    "nome_sala": "wwww",
+    "sala_id": 3,
+    "numero_assentos": 23,
+    "quantidade_sessoes": 0
+  }
+]
