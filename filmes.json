@@ -4,5 +4,11 @@
         "genero": "Fantasia",
         "lancamento": 2001,
         "duracao": 152
+    },
+    {
+        "nome": "Vingadores",
+        "genero": "Super-Herói",
+        "lancamento": 2012,
+        "duracao": 153
     }
 ]

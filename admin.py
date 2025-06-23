@@ -103,6 +103,7 @@ def login():
         if usuarios[cpf_login]["senha"] == senha_login:
             nome = usuarios[cpf_login]["nome"]
             print(f"✅ Usuário {nome} (CPF: {cpf_login}), bem-vindo de volta!")
+            return cpf_login
         else:
             print("❌ Senha incorreta!")
     else:

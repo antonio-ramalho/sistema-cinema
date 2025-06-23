@@ -28,14 +28,14 @@ def cadastra_filme(catalogo):
                     print('Ano de lançamento inválido! Por favor, tente novamente.')
             except ValueError:
                 print('Entrada inválida. Por favor, digite um número.')
-                
+
         while True:
             try:
-                duracao = int(input('Digite a duração do filme (em minutos) '))
+                duracao = int(input('Digite a duração do filme (em minutos): '))
                 if duracao > 0:
                     break
                 else:
-                    print('Valor de duração inválido!Por favor, tente novamente.')
+                    print('Valor de duração inválido! Por favor, tente novamente.')
             except ValueError:
                 print('Entrada inválida. Por favor, digite um número.')
 
@@ -60,20 +60,23 @@ def cadastra_filme(catalogo):
 
 #Função para excluir filmes do catálogo
 def excluir_filme(catalogo):
-    if not catalogo:
-        print("O catálogo está vazio. Não há filmes para excluir.")
-        return catalogo
-    
-    nome_para_excluir = input("Digite o nome do filme que deseja excluir: ")
-    catalogo_atualizado = [filme for filme in catalogo if filme['nome'].lower() != nome_para_excluir.lower()]
+    while True:
+        if not catalogo:
+            print("O catálogo está vazio. Não há filmes para excluir.")
+            return catalogo
+        
+        nome_para_excluir = input("Digite o nome do filme que deseja excluir: ")
+        catalogo_atualizado = [filme for filme in catalogo if filme['nome'].lower() != nome_para_excluir.lower()]
 
-    if len(catalogo_atualizado) < len(catalogo):
-        salvar_filmes(catalogo_atualizado)
-        print(f"Filme '{nome_para_excluir}' foi excluído com sucesso!")
-        return catalogo_atualizado
-    else:
-        print(f"Filme '{nome_para_excluir}' não encontrado no catálogo.")
-        return catalogo
+        if len(catalogo_atualizado) < len(catalogo):
+            salvar_filmes(catalogo_atualizado)
+            print(f"Filme '{nome_para_excluir}' foi excluído com sucesso!")
+            if input('Deseja excluir mais filmes?(s/n) ').lower == 'n':
+                return catalogo_atualizado
+                
+        else:
+            print(f"Filme '{nome_para_excluir}' não encontrado no catálogo.")
+            return catalogo
 
 #Função para mostrar o catálogo
 def mostrar_filmes(catalogo):

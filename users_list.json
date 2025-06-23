@@ -3,5 +3,10 @@
     "nome": "Lucas",
     "senha": "1234",
     "admin": false
+  },
+  "13859184970": {
+    "nome": "Postigo",
+    "senha": "1234",
+    "admin": true
   }
 }
