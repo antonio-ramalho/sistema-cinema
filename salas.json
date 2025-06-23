@@ -1,31 +1,34 @@
 [
-  {
-    "nome_sala": "alpha",
-    "sala_id": 1,
-    "numero_assentos": 25,
-    "quantidade_sessoes": 1,
-    "sessoes_associadas": [
-      {
-        "sala_sessao": "alpha",
-        "id_sessao": 1,
-        "id_sala": 1,
-        "horario_inicio": "09:00",
-        "horario_termino": "10:00",
-        "tempo_sessao": 100,
-        "numero_assentos": 25
-      }
-    ]
-  },
-  {
-    "nome_sala": "beta",
-    "sala_id": 2,
-    "numero_assentos": 50,
-    "quantidade_sessoes": 0
-  },
-  {
-    "nome_sala": "wwww",
-    "sala_id": 3,
-    "numero_assentos": 23,
-    "quantidade_sessoes": 0
-  }
+    {
+        "nome_sala": "alpha",
+        "sala_id": 1,
+        "numero_assentos": 50,
+        "quantidade_sessoes": 2,
+        "sessoes_associadas": [
+            {
+                "sala_sessao": "alpha",
+                "horario_bloco": "12:30-14:30",
+                "horario_inicio": "12:30",
+                "horario_termino": "14:30",
+                "tempo_sessao": 150,
+                "numero_assentos": 50,
+                "id_sala": 1,
+                "id_sessao": 2
+            },
+            {
+                "sala_sessao": "alpha",
+                "horario_bloco": "15:00-17:00",
+                "horario_inicio": "15:00",
+                "horario_termino": "17:00",
+                "tempo_sessao": 100,
+                "numero_assentos": 50,
+                "id_sala": 1,
+                "id_sessao": 4
+            }
+        ],
+        "horarios_ocupados": [
+            "12:30-14:30",
+            "15:00-17:00"
+        ]
+    }
 ]

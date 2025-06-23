@@ -28,12 +28,9 @@ while True: # loop principal
         elif resposta == "2": # segunda escolha do loop
                 
             # Inicio do modulo salas e sessoes
-            contador_saida_modulo = m_s.modulo_filmes_salas()
-            
-            if contador_saida_modulo == True:
+            if m_s.modulo_filmes_salas() == True:
                 break
             # Fim do modulo 
-            
         elif resposta == "3": # terceira escolha do loop
             u_a.cabecalho_cinemax()
             print("Obrigado pela preferência, volte sempre!".center(60))

@@ -17,6 +17,10 @@ def salvar_salas(salas, nome_arquivo='salas.json'):
 
 salas = carregar_salas()
 
+todos_os_horarios_possiveis = [
+    "10:00-12:00", "12:30-14:30", "15:00-17:00", "17:30-19:30", "20:00-22:00", "22:30-00:30"
+]
+
 # Funções dos menus
    
 def menu_sistema():
@@ -30,7 +34,7 @@ def menu_sistema():
     return resposta
 
 def menu_filmes():
-    menu_filmes_opcoes = ["[1] Ver sala específica", "[2] Cadastrar sala", "[3] Sair"] 
+    menu_filmes_opcoes = ["[1] Ver sala específica", "[2] Cadastrar sala", "[3] Excluir sala", "[4] Sair"] 
 
     for i in menu_filmes_opcoes:
         print(i)
@@ -40,7 +44,7 @@ def menu_filmes():
     return menu_filmes_resposta
 
 def menu_cadastra_sessao():
-    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Sair"] 
+    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Excluir sessão", "[3] Sair"] 
 
     for i in menu_cadastra_sessao_opcoes:
         print(i)
@@ -59,63 +63,64 @@ def pegar_proximo_id_sala(salas_list):
         max_id = max(sala['sala_id'] for sala in salas_list)
         return max_id + 1
 
+def gercao_Id_e_nome_sala(salas_existentes):
+    u_a.limpar_console()
+    u_a.cabecalho_cinemax()
+    print("CADASTRO DE NOVA SALA".center(60))
+        
+    sala_id_gerado = pegar_proximo_id_sala(salas_existentes)
+    print(f"ID da nova sala: {sala_id_gerado}")
+    nome_sala = input("Digite o nome da sala: ").strip()
+        
+    if not nome_sala:
+        u_a.msg_numero_valido()
+        input("Pressione Enter para tentar novamente...")
+    
+    return sala_id_gerado, nome_sala
+
+def geracao_numero_assentos_sala(sala_id_gerado, nome_sala):
+    try:
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        print(f"Cadastrando sala: {nome_sala} (ID: {sala_id_gerado})")
+        assentos_input = input("Digite o número de assentos: ")
+        numero_assentos_int = int(assentos_input)
+            
+        if numero_assentos_int <= 0: 
+            raise ValueError 
+        
+    except ValueError:
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        print(f"***********************".center(60))
+        print("Por favor, digite um número inteiro positivo para os assentos.".center(60))
+        print(f"***********************".center(60))
+        input("Pressione Enter para tentar novamente...")
+        numero_assentos_int = None 
+        
+    return numero_assentos_int
+
 def cadastra_sala(salas_existentes): 
     
     nome_sala = ""
     
     while not nome_sala.strip():
-        u_a.limpar_console()
-        u_a.cabecalho_cinemax()
-        print("CADASTRO DE NOVA SALA".center(60))
-        
-        sala_id_gerado = pegar_proximo_id_sala(salas_existentes)
-        print(f"ID da nova sala: {sala_id_gerado}")
-        nome_sala = input("Digite o nome da sala: ").strip()
-        
-        if not nome_sala:
-            u_a.msg_numero_valido()
-            input("Pressione Enter para tentar novamente...")
+        sala_id_gerado, nome_sala = gercao_Id_e_nome_sala(salas_existentes)
 
     numero_assentos_int = None
+    
     while numero_assentos_int is None:
-        
-        try:
-            u_a.limpar_console()
-            u_a.cabecalho_cinemax()
-            print(f"Cadastrando sala: {nome_sala} (ID: {sala_id_gerado})")
-            assentos_input = input("Digite o número de assentos: ")
-            numero_assentos_int = int(assentos_input)
-            
-            if numero_assentos_int <= 0: 
-                raise ValueError 
-        
-        except ValueError:
-            u_a.limpar_console()
-            u_a.cabecalho_cinemax()
-            print(f"***********************".center(60))
-            print("Por favor, digite um número inteiro positivo para os assentos.".center(60))
-            print(f"***********************".center(60))
-            input("Pressione Enter para tentar novamente...")
-            numero_assentos_int = None 
+        numero_assentos_int = geracao_numero_assentos_sala(sala_id_gerado, nome_sala)
 
     quantidade_sessoes_inicial = 0
 
-    return nome_sala, sala_id_gerado, numero_assentos_int, quantidade_sessoes_inicial
-    
-def armazena_sala(nome_sala, sala_id, numero_assentos, salas, quantidade_sessoes):
-    
-    sala = {
-        'nome_sala': nome_sala,
-        'sala_id': sala_id,
-        'numero_assentos': numero_assentos,
-        'quantidade_sessoes': quantidade_sessoes,
+    return {
+        'nome_sala': nome_sala, 
+        'sala_id': sala_id_gerado,
+        'numero_assentos': numero_assentos_int,
+        'quantidade_sessoes': quantidade_sessoes_inicial
     }
     
-    salas.append(sala)
-    salvar_salas(salas)
-    
-    return salas
-
 def mostra_salas(salas):
     
     for sala in salas:
@@ -129,33 +134,174 @@ def mostra_salas(salas):
         
     if salas == []:
         print("Ainda não existe uma sala cadastrada!".center(60))
+        
+def buscar_sala(sala_selecionada_id, salas):
+
+    sala_encontrada = None
+    for sala in salas:
+        if sala_selecionada_id == sala['sala_id']:
+            sala_encontrada = sala
+            break 
+        
+    return sala_encontrada
     
+def buscar_sala_excluir():
+    sala_encontrada = None
+    
+    while sala_encontrada is None:
+        try:
+            sala_selecionada_exclusao_id = int(input("Digite o número de matrícula da sala que você selecionou: "))
+            sala_encontrada = buscar_sala(sala_selecionada_exclusao_id, salas)
+            return sala_encontrada
+        except ValueError:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            print("Digite um número valido.")
+            input("Pressione Enter para tentar novamente...")
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+
+def excluir_sala():
+    
+    sala_encontrada = buscar_sala_excluir()
+        
+    if sala_encontrada: 
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        mostra_sessao(sala_encontrada)
+         
+        try:       
+            if input("Você deseja excluir essa sala e todas as suas sessões [S/N]: ").upper() == "S":
+                salas.remove(sala_encontrada)
+                u_a.limpar_console()
+                print(f"Sala excluida com sucesso!".center(60))      
+            else:
+                u_a.limpar_console()  
+                print(f"Sala não excluida com sucesso!".center(60))            
+        except ValueError:
+            u_a.cabecalho_cinemax()
+            u_a.limpar_console()
+            u_a.msg_numero_valido()
+            input("Pressione Enter para tentar novamente...")
+    else:
+        u_a.limpar_console()
+        print("Essa sala ainda não existe.".center(60))
+        
 # funções da sessão
 
-def cadastra_sessao(sala_sessao, numero_assentos_sala, sala_id):
+def calcula_horarios_disponiveis(sala_encontrada):
+
+    horarios_ocupados_sala = sala_encontrada.get('horarios_ocupados', [])
     
-    tempo_sessao = None 
-    sala_sessao = sala_sessao
-    id_sala = sala_id
+    horarios_disponiveis = [
+        h for h in todos_os_horarios_possiveis if h not in horarios_ocupados_sala
+    ]
+    return horarios_disponiveis
+
+def valida_horarios_disponiveis(sala_encontrada, horarios_disponiveis):
+
+    if not horarios_disponiveis:
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        print(f"Não há horários disponíveis para a Sala '{sala_encontrada['nome_sala']}'.")
+        input("Pressione Enter para voltar ao menu...")
+        return False 
     
-    while tempo_sessao is None: 
+    return True 
+
+def apresentar_horarios(sala_encontrada, horarios_disponiveis):
+    
+    u_a.limpar_console()
+    u_a.cabecalho_cinemax()
+    print(f"CADASTRO DE SESSÃO PARA A SALA: {sala_encontrada['nome_sala'].upper()}")
+    print("-" * 60)
+    print("Horários disponíveis:".center(60))
+        
+    for i, horario_bloco in enumerate(horarios_disponiveis):
+        print(f"[{i+1}] {horario_bloco}")
+    print("-" * 60)
+    
+def coletar_escolha_horario(sala_encontrada, horarios_disponiveis):
+
+    horario_selecionado = None
+    
+    while horario_selecionado is None: 
+        apresentar_horarios(sala_encontrada, horarios_disponiveis) 
         try:
-            u_a.limpar_console() 
-            u_a.cabecalho_cinemax()
-            print(f"Cadastrando sessão para a Sala: {sala_sessao} (ID: {sala_id})")
-            tempo_sessao = int(input("Digite o tempo [em minutos] total da sessão: "))
+            opcao_horario = int(input("Escolha o número do horário desejado: "))
+            if 1 <= opcao_horario <= len(horarios_disponiveis):
+                horario_selecionado = horarios_disponiveis[opcao_horario-1]
+                return horario_selecionado
+            else:
+                raise ValueError 
         except ValueError:
             u_a.limpar_console()
             u_a.cabecalho_cinemax()
             u_a.msg_numero_valido()
-            input("Pressione Enter para tentar novamente...") 
+            input("Pressione Enter para tentar novamente...")
 
-    horario_inicio = input("Digite o horário de início da sessão (Ex: 09:00): ")
-    horario_termino = input("Digite o horário de término da sessão (Ex: 11:00): ")
+def cadastra_horario_sessao(sala_encontrada):
+
+    horarios_disponiveis = calcula_horarios_disponiveis(sala_encontrada)
     
-    numero_assentos_sessao = numero_assentos_sala
+    if not valida_horarios_disponiveis(sala_encontrada, horarios_disponiveis):
+        return None, None, None 
+
+    horario_selecionado = coletar_escolha_horario(sala_encontrada, horarios_disponiveis)
     
-    return sala_sessao, tempo_sessao, horario_inicio, horario_termino, numero_assentos_sessao, id_sala 
+    if horario_selecionado is None:
+        return None, None, None
+    
+    horario_inicio = horario_selecionado.split('-')[0].strip()
+    horario_termino = horario_selecionado.split('-')[1].strip()
+    
+    return horario_inicio, horario_termino, horario_selecionado
+
+def cadastra_tempo_sessao(sala_encontrada, horario_selecionado_bloco): 
+    tempo_sessao = None
+    
+    while tempo_sessao is None:
+        try:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            print(f"Cadastrando sessão para a Sala: {sala_encontrada['nome_sala']} - Horário: {horario_selecionado_bloco}")
+            tempo_input = input("Digite o tempo [em minutos] total da sessão: ")
+            tempo_sessao = int(tempo_input)
+            if tempo_sessao <= 0:
+                raise ValueError("O tempo da sessão deve ser um número inteiro positivo.")
+        except ValueError as e:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            u_a.msg_numero_valido()
+            print(f"***********************".center(60))
+            print(f"Erro: {e}".center(60)) 
+            print(f"***********************".center(60))
+            input("Pressione Enter para tentar novamente...")
+            tempo_sessao = None
+             
+    return tempo_sessao
+
+def cadastra_sessao(sala_encontrada): 
+    
+    horario_inicio, horario_termino, horario_selecionado_bloco = cadastra_horario_sessao(sala_encontrada)
+    
+    if horario_selecionado_bloco is None: 
+        return None
+
+    tempo_sessao = cadastra_tempo_sessao(sala_encontrada, horario_selecionado_bloco)
+    
+    if tempo_sessao is None:
+        return None
+
+    return {
+        'sala_sessao': sala_encontrada['nome_sala'],
+        'horario_bloco': horario_selecionado_bloco, 
+        'horario_inicio': horario_inicio,
+        'horario_termino': horario_termino,
+        'tempo_sessao': tempo_sessao,
+        'numero_assentos': sala_encontrada['numero_assentos'], 
+        'id_sala': sala_encontrada['sala_id']
+    }
 
 def mostra_sessao(sala):
      
@@ -181,19 +327,88 @@ def pegar_proximo_id_sessao(sessoes_associadas_da_sala):
     else:
         max_id = max(sessao['id_sessao'] for sessao in sessoes_associadas_da_sala)
         return max_id + 1
+       
+def buscar_sessao(sessao_selecionada_exclusao_id, sala_encontrada):
+    sessao_encontrada = None
+    
+    for sessao in sala_encontrada['sessoes_associadas']:
+        if sessao_selecionada_exclusao_id == sessao['id_sessao']:
+            sessao_encontrada = sessao
+            break
+    
+    return sessao_encontrada
+             
+def buscar_sessao_excluir(sala_encontrada):
+    sessao_encontrada = None
+    
+    while sessao_encontrada is None:
+        try:
+            sessao_selecionada_exclusao_id = int(input("Digite o número de matrícula da sessão que você selecionou: "))
+            sessao_encontrada = buscar_sessao(sessao_selecionada_exclusao_id, sala_encontrada)
+            return sessao_encontrada
+        except ValueError:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            print("Digite um número valido.")
+            input("Pressione Enter para tentar novamente...")
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            
+def checagem_se_sessao_existe(sala_encontrada):
+    
+    if not sala_encontrada.get('sessoes_associadas'): 
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        print(f"Não há sessões cadastradas para a Sala '{sala_encontrada['nome_sala']}'.")
+        input("Pressione Enter para voltar ao menu...")
+        return True
+    
+def excluir_sessao(sala_encontrada, salas_data):
+    
+    if checagem_se_sessao_existe(sala_encontrada):
+        return
+    
+    u_a.limpar_console()
+    u_a.cabecalho_cinemax()
+    mostra_sessao(sala_encontrada)
         
-# Terminal de gerenciamento
+    sessao_encontrada_para_exluir = buscar_sessao_excluir(sala_encontrada)
+    
+    if sessao_encontrada_para_exluir: 
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        print(f"Sessão selecionada para exclusão:")
+        print(f"  ID: {sessao_encontrada_para_exluir['id_sessao']} | Horário: {sessao_encontrada_para_exluir.get('horario_bloco', 'N/A')}")
+        print("-" * 60)
+        confirmacao = input("Você deseja REALMENTE excluir essa sessão? [S/N]").upper()
+        
+        if confirmacao == "S":
+            sala_encontrada['sessoes_associadas'].remove(sessao_encontrada_para_exluir)
+            
+            if 'horarios_ocupados' in sala_encontrada and \
+               sessao_encontrada_para_exluir.get('horario_bloco') in sala_encontrada['horarios_ocupados']:
+                sala_encontrada['horarios_ocupados'].remove(sessao_encontrada_para_exluir['horario_bloco'])
+            
+            sala_encontrada['quantidade_sessoes'] = len(sala_encontrada['sessoes_associadas'])
+            salvar_salas(salas_data)
+            
+            u_a.limpar_console()
+            print(f"Sessão excluida com sucesso!".center(60))      
+        else:
+            u_a.limpar_console()  
+            print(f"Sessão não excluida com sucesso!".center(60))            
+    else:
+        u_a.limpar_console()
+        print("Essa sessão ainda não existe.".center(60))
+        
+# Funções do terminal de gerenciamento de sala selecionada
 
 def gerenciar_sala_selecionada(sala_selecionada_id, salas_data):
-
-    sala_encontrada = None
     
     # Busca por sala sala selecionada
-    for sala in salas_data:
-        if sala_selecionada_id == sala['sala_id']:
-            sala_encontrada = sala
-            break 
+    sala_encontrada = buscar_sala(sala_selecionada_id, salas_data)
 
+    # Se essa sala exister
     if sala_encontrada:
         u_a.cabecalho_cinemax()
         mostra_sessao(sala_encontrada)
@@ -209,45 +424,52 @@ def gerenciar_sala_selecionada(sala_selecionada_id, salas_data):
                     sala_encontrada['sessoes_associadas'] = []
                     
                 proximo_id_sessao = pegar_proximo_id_sessao(sala_encontrada['sessoes_associadas'])
-
-                sala_sessao, tempo_sessao, horario_inicio, horario_termino, \
-                numero_assentos_sessao, id_sala_sessao = cadastra_sessao(
-                    sala_encontrada['nome_sala'], sala_encontrada['numero_assentos'], sala_encontrada['sala_id']
-                )
-
-                # Cria o dicionário da nova sessão
-                nova_sessao = {
-                    'sala_sessao': sala_sessao,
-                    'id_sessao': proximo_id_sessao,
-                    'id_sala': id_sala_sessao,
-                    'horario_inicio': horario_inicio,
-                    'horario_termino': horario_termino,
-                    'tempo_sessao': tempo_sessao,
-                    'numero_assentos': numero_assentos_sessao,
-                }
                 
-                sala_encontrada['sessoes_associadas'].append(nova_sessao)
-                sala_encontrada['quantidade_sessoes'] = len(sala_encontrada['sessoes_associadas'])
-               
-                salvar_salas(salas_data) 
+                nova_sessao_dados = cadastra_sessao(sala_encontrada) 
+
+                if nova_sessao_dados: # Se a sessão foi criada com sucesso 
+                    
+                    proximo_id_sessao = pegar_proximo_id_sessao(sala_encontrada.get('sessoes_associadas', []))
+                    nova_sessao_dados['id_sessao'] = proximo_id_sessao 
+
+                    if 'sessoes_associadas' not in sala_encontrada:
+                        sala_encontrada['sessoes_associadas'] = []
+                        
+                    sala_encontrada['sessoes_associadas'].append(nova_sessao_dados)
+                    
+                    if 'horarios_ocupados' not in sala_encontrada:
+                        sala_encontrada['horarios_ocupados'] = []
+                        
+                    sala_encontrada['horarios_ocupados'].append(nova_sessao_dados['horario_bloco'])
+                    sala_encontrada['quantidade_sessoes'] = len(sala_encontrada['sessoes_associadas'])
+                    salvar_salas(salas_data)
+              
+                    u_a.limpar_console()
+                    u_a.cabecalho_cinemax()
+                    print("Sessão cadastrada com sucesso!".center(60))
+                    mostra_sessao(sala_encontrada)
+                else:
+                    u_a.cabecalho_cinemax()
+                    mostra_sessao(sala_encontrada) 
+            elif menu_cadastra_sessao_resposta == "2": 
                 u_a.limpar_console()
                 u_a.cabecalho_cinemax()
-                print("Sessão cadastrada com sucesso!".center(60))
-                mostra_sessao(sala_encontrada) 
-
-            elif menu_cadastra_sessao_resposta == "2": # Sair do menu de cadastro de sessão
+                excluir_sessao(sala_encontrada, salas_data)
+                salvar_salas(salas)
+                u_a.cabecalho_cinemax()
+                mostra_sessao(sala_encontrada)
+            elif menu_cadastra_sessao_resposta == "3": # Sair do menu de cadastro de sessão 
                 u_a.limpar_console()
-                break 
-            else:
+                break
+            else: # Caso o usuario escolha qualquer outra coisa
                 u_a.limpar_console()
                 u_a.msg_numero_valido()
                 u_a.cabecalho_cinemax() 
                 mostra_sessao(sala_encontrada) 
-
     else: # Esta sala não foi encontrada no loop
         print("Essa sala ainda não existe.".center(60))
-    
-    return
+
+# Função módulo, ela une todo o módulo para o código principal
 
 def modulo_filmes_salas():
     while True: #loop principal
@@ -262,31 +484,35 @@ def modulo_filmes_salas():
                 mostra_salas(salas)
                 menu_filmes_resposta = menu_filmes()
                             
-                if menu_filmes_resposta == "1": # sala especifica
-                            
+                if menu_filmes_resposta == "1": # Ver sala especifica      
                     try:
                         sala_selecionada_id = int(input("Digite o número de matrícula da sala que você selecionou: "))
                         u_a.limpar_console()
                         gerenciar_sala_selecionada(sala_selecionada_id, salas)              
                     except ValueError:
                         u_a.limpar_console()
-                        u_a.msg_numero_valido()
-                                                
+                        u_a.msg_numero_valido()           
                 elif menu_filmes_resposta == "2": # cadastrar sala
                     try:
                         u_a.limpar_console()
                         u_a.cabecalho_cinemax()
-                        nome_sala, sala_id, numero_assentos, quantidade_sessoes = cadastra_sala(salas)
-                        armazena_sala(nome_sala, sala_id, numero_assentos, salas, quantidade_sessoes)
+                        nova_sala = cadastra_sala(salas)
+                        salas.append(nova_sala)
+                        salvar_salas(salas)
                         u_a.limpar_console()
                         print("Sala cadastrada com sucesso!".center(60))
                     except ValueError:
                         u_a.limpar_console()
                         u_a.msg_numero_valido()
-                elif menu_filmes_resposta == "3": # sair
+                elif menu_filmes_resposta == "3": # Excluir sala
+                    u_a.limpar_console()
+                    u_a.cabecalho_cinemax()
+                    excluir_sala()
+                    salvar_salas(salas)
+                elif menu_filmes_resposta == "4": # Sair
                     u_a.limpar_console()
                     break
-                else: #quaquer outra opção
+                else: # Qualquer outra opção que o usuario escolher
                     u_a.limpar_console()
                     u_a.msg_numero_valido()
             elif resposta == "2": # Sair
