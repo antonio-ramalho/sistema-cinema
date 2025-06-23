@@ -1,6 +1,11 @@
 import json
 import os
 
+## ------------------------------------------------------------------------------------
+## --------------- CADASTRA / MODIFICA / EXCLUI USUÁRIO -------------------------------
+## ------------------------------------------------------------------------------------
+
+
 SENHA_MESTRA_ADMIN = "adm123"
 ARQUIVO_USUARIOS = "users_list.json"
 
@@ -65,6 +70,25 @@ def menu_cadastro():
 
     cadastrar_usuario(nome_input, cpf_input, senha_usuario, admin)
 
+def exclui_usuario():
+    usuarios = carregar_usuarios()
+    cpf = input("Digite o CPF do usuário que deseja excluir: ")
+    if cpf in usuarios:
+        confirm = input(f"Tem certeza que deseja excluir o usuário '{usuarios[cpf]['nome']}'? (s/n): ").lower()
+        if confirm == 's':
+            del usuarios[cpf]
+            salvar_usuarios(usuarios)
+            print("✅ Usuário excluído com sucesso.")
+        else:
+            print("❌ Operação cancelada.")
+    else:
+        print("❌ Usuário não encontrado.")
+
+## -----------------------------------------------------------------
+## --------------------- LISTAR / LOGIN ----------------------------
+## -----------------------------------------------------------------
+
+
 def listar_usuarios():
     usuarios = carregar_usuarios()
     print("\n--- Lista de Usuários no Sistema ---")
@@ -84,29 +108,98 @@ def login():
     else:
         print("❌ Usuário não encontrado.")
 
-# Execução de testes
+## ----------------------------------------------------------------------------
+## ---------------------- CANCELA / GERA RELATORIO ----------------------------
+## ----------------------------------------------------------------------------
 
-login()
-menu_cadastro()
-menu_cadastro()
-menu_cadastro()
-listar_usuarios()
-modifica_usuario()
-listar_usuarios()
+def gera_relatorio():
+    ARQUIVO_BILHETES = "bilhetes.json"
+    ARQUIVO_RELATORIO = "relatorio_vendas.json"
+
+    if not os.path.exists(ARQUIVO_BILHETES):
+        with open(ARQUIVO_BILHETES, "w") as f:
+            json.dump([], f)
+        print(f"⚠️ Arquivo '{ARQUIVO_BILHETES}' não existia e foi criado vazio.")
+        print("ℹ Nenhum dado disponível para gerar relatório.")
+        return
+
+    with open(ARQUIVO_BILHETES, "r") as f:
+        bilhetes = json.load(f)
+
+    if not bilhetes:
+        print("ℹ Nenhum bilhete registrado. Relatório não gerado.")
+        return
+
+    total_bilhetes = 0
+    total_receita = 0.0
+    publico_filme = {}
+    receita_filme = {}
+
+    for b in bilhetes:
+        filme = b["filme"]
+        qtd = b["quantidade"]
+        preco = b["preco"]
+        total_bilhetes += qtd
+        total_receita += qtd * preco
+
+        publico_filme[filme] = publico_filme.get(filme, 0) + qtd
+        receita_filme[filme] = receita_filme.get(filme, 0.0) + qtd * preco
+
+    relatorio = {
+        "total_bilhetes_vendidos": total_bilhetes,
+        "receita_total": round(total_receita, 2),
+        "publico_por_filme": publico_filme,
+        "receita_por_filme": {f: round(v, 2) for f, v in receita_filme.items()}
+    }
+
+    with open(ARQUIVO_RELATORIO, "w") as f:
+        json.dump(relatorio, f, indent=2, ensure_ascii=False)
+
+    print(f" Relatório gerado com sucesso em '{ARQUIVO_RELATORIO}'.")
+    print(f" Total de bilhetes: {total_bilhetes} |  Receita total: R$ {total_receita:.2f}")
 
 
+def cancela_bilhete():
+    try:
+        with open("bilhetes.json", "r") as f:
+            bilhetes = json.load(f)
+    except FileNotFoundError:
+        print("❌ Nenhuma venda registrada.")
+        return
+
+    cpf = input("Digite o CPF para o qual deseja cancelar um bilhete: ")
+    bilhetes_filtrados = [b for b in bilhetes if b["cpf"] != cpf]
+
+    if len(bilhetes) == len(bilhetes_filtrados):
+        print("⚠️ Nenhum bilhete encontrado para este CPF.")
+        return
+
+    with open("bilhetes.json", "w") as f:
+        json.dump(bilhetes_filtrados, f, indent=2)
+
+    print(f"✅ Bilhetes do CPF {cpf} foram cancelados com sucesso.")
+
+
+## ----------------------------------------------------------------------------
+## ------------------------- EXECUCAO DE TESTES -------------------------------
+## ----------------------------------------------------------------------------
+
+##gera_relatorio()
+##menu_cadastro()
 ##login()
+##modifica_usuario()
+##exclui_usuario()
 
-##define_preço() 
+
+##----------------------------------------------------------------------------------
+##----------------------------------------------------------------------------------
 
 ##gera_relatorio() 
 
-##filme mais bem votado 
-##renda por sala 
-##filmes com mais pessoas 
-##filmes mais lurativos 
-##etc. 
+##filme mais bem votado ## Breno vai fazer a função de votar
+##renda por sala ## Baseado no número de vendas de ingresso/bilhete
+##filmes com mais pessoas ## Baseado no número de vendas de ingresso/bilhete
+##filmes mais lucrativos ## Baseado no número de vendas de ingresso/bilhete
 
-##cancela_bilhete() 
-
-##exclui_usuario() 
+##----------------------------------------------------------------------------------
+##----------------------------------------------------------------------------------
