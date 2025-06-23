@@ -90,25 +90,25 @@ def geracao_numero_assentos_sala(sala_id_gerado, nome_sala):
         
     return numero_assentos_int
 
-def cadastra_sala(salas_existentes): 
+def cadastra_sala(salas_existentes):
     
     nome_sala = ""
     
     while not nome_sala.strip():
         sala_id_gerado, nome_sala = gercao_Id_e_nome_sala(salas_existentes)
 
-    numero_assentos_int = None
-    
-    while numero_assentos_int is None:
-        numero_assentos_int = geracao_numero_assentos_sala(sala_id_gerado, nome_sala)
+        numero_assentos_int = None
+        
+        while numero_assentos_int is None:
+            numero_assentos_int = geracao_numero_assentos_sala(sala_id_gerado, nome_sala)
 
-    quantidade_sessoes_inicial = 0
+        quantidade_sessoes_inicial = 0
 
     return {
-        'nome_sala': nome_sala, 
-        'sala_id': sala_id_gerado,
-        'numero_assentos': numero_assentos_int,
-        'quantidade_sessoes': quantidade_sessoes_inicial
+            'nome_sala': nome_sala, 
+            'sala_id': sala_id_gerado,
+            'numero_assentos': numero_assentos_int,
+            'quantidade_sessoes': quantidade_sessoes_inicial
     }
     
 def mostra_salas(salas):
@@ -462,9 +462,9 @@ def gerenciar_sala_selecionada(sala_selecionada_id, salas_data):
 # Função módulo, ela une todo o módulo para o código principal
 
 def modulo_filmes_salas():
-
+        u_a.limpar_console()
         while True: #loop principal
-                u_a.limpar_console()
+                
                 u_a.cabecalho_cinemax()
                 mostra_salas(salas)
                 menu_filmes_resposta = menu_filmes()
