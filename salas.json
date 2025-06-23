@@ -1,8 +1,8 @@
 [
   {
-    "nome_sala": "alpha",
+    "nome_sala": "1",
     "sala_id": 1,
-    "numero_assentos": 25,
+    "numero_assentos": 9,
     "quantidade_sessoes": 1,
     "sessoes_associadas": [
       {

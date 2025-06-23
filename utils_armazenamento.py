@@ -24,3 +24,6 @@ def msg_numero_valido():
     print(" ")
     print("****Digite um número válido!****".center(60))
     print(" ")
+
+def input_continuar():
+    input("\nPressione Enter para continuar...")

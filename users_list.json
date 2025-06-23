@@ -1,7 +1,13 @@
 {
   "11133334400": {
-    "nome": "111",
+    "nome": "Breno",
     "senha": "123",
-    "admin": false
+    "admin": false,
+    "historico": [
+      {
+        "filme": "Filme de Teste",
+        "data_compra": "23/06/2025"
+      }
+    ]
   }
 }
