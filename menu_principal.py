@@ -1,6 +1,7 @@
 import filmes
 import utils_armazenamento as u_a
 import admin
+import modulo_salas as m_s
 
 import time
 
@@ -70,6 +71,8 @@ while True: # loop principal
                                 u_a.cabecalho_cinemax()
                                 admin.exclui_usuario()
                                 time.sleep(1)
+                            elif resposta_admin == '5':
+                                m_s.modulo_filmes_salas()
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 break
@@ -78,7 +81,6 @@ while True: # loop principal
                         else:
                             #FUNÇÕES DO CLIENTE
                             pass
-                
             elif escolha == "2": #Cadastrar Usuário
                 u_a.limpar_console
                 u_a.cabecalho_cinemax
@@ -90,8 +92,6 @@ while True: # loop principal
             else:
                 u_a.limpar_console()
                 u_a.msg_numero_valido()  
-            
-
         elif resposta == "3": # terceira escolha
             u_a.cabecalho_cinemax()
             print("Obrigado pela preferência, volte sempre!".center(60))
