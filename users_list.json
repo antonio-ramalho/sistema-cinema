@@ -8,5 +8,10 @@
     "nome": "Postigo",
     "senha": "1234",
     "admin": true
+  },
+  "11174448997": {
+    "nome": "antonio",
+    "senha": "12345",
+    "admin": true
   }
 }
