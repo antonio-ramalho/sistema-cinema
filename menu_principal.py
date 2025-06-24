@@ -77,7 +77,6 @@ while True: # loop principal
                                 u_a.cabecalho_cinemax()
                                 filme_escolhido = filmes.escolher_filme(filmes.catalogo)
                                 m_s.colocar_filme_em_sessao(filme_escolhido)
-                                time.sleep(1)
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 break
