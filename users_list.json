@@ -4,14 +4,14 @@
     "senha": "1234",
     "admin": false
   },
-  "13859184970": {
-    "nome": "Postigo",
-    "senha": "1234",
-    "admin": true
-  },
   "11174448997": {
     "nome": "antonio",
     "senha": "12345",
+    "admin": true
+  },
+  "12345678900": {
+    "nome": "12345678900",
+    "senha": "1234",
     "admin": true
   }
 }
