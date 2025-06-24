@@ -13,7 +13,7 @@ def menu_sistema():
     return resposta
 
 def escolha_admin():
-    menu_escolha_admin = ["[1] Cadastrar filmes", "[2] Excluir filme","[3] Listar Usuários","[4] Excluir Usuário","[5] Salas e sessões", "[0] Sair"]
+    menu_escolha_admin = ["[1] Cadastrar filmes", "[2] Excluir filme","[3] Listar Usuários","[4] Excluir Usuário","[5] Salas e sessões", "[6] Cadastar filme na sessão","[0] Sair"]
     for i in menu_escolha_admin:
         print(i)
     
