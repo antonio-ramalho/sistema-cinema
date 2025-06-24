@@ -37,7 +37,7 @@ def menu_filmes():
     return menu_filmes_resposta
 
 def menu_cadastra_sessao():
-    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Excluir sessão", "[3] Colocar filme em sessão", "[4] Sair"] 
+    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Excluir sessão", "[3] Sair"] 
 
     for i in menu_cadastra_sessao_opcoes:
         print(i)
@@ -293,7 +293,8 @@ def cadastra_sessao(sala_encontrada):
         'horario_termino': horario_termino,
         'tempo_sessao': tempo_sessao,
         'numero_assentos': sala_encontrada['numero_assentos'], 
-        'id_sala': sala_encontrada['sala_id']
+        'id_sala': sala_encontrada['sala_id'],
+        'disponibilidade': True
     }
 
 def mostra_sessao(sala):
@@ -309,6 +310,12 @@ def mostra_sessao(sala):
             print(f"  Horário de Término: {sessao['horario_termino']}")
             print(f"  Tempo da Sessão: {sessao['tempo_sessao']} minutos")
             print(f"  Número de assentos: {sessao['numero_assentos']}")
+            
+            if 'disponibilidade' in sessao:
+                if sessao['disponibilidade'] == True:
+                    print(f"  Disponibilidade: Sessão disponível")
+                else:
+                    print(f"  Disponibilidade: Sessão indisponível")
             print("-" * 60)
     else: 
         print("Ainda não existem sessões cadastradas nessa sala.".center(60))
@@ -394,57 +401,95 @@ def excluir_sessao(sala_encontrada, salas_data):
         u_a.limpar_console()
         print("Essa sessão ainda não existe.".center(60))
 
-def escolher_filme_para_sessao(filmes):
+def mostra_sala_para_colocar_filme(filme_escolhido):
     
-    escolha = input("Digite o nome do filme que você escolheu: ")
-    
-    filme_escolhido_nome = None
-    
-    for filme in filmes:
-        if escolha == filme['nome']:
-            filme_escolhido_nome = filme['nome']
-            break
-    
-    return {
-        'nome_filme': filme_escolhido_nome,
-    }
-    
-def colocar_filme_em_sessao(filme_escolhido):
+    sala_encontrada = None
     u_a.limpar_console()
     u_a.cabecalho_cinemax()
-    for sala in salas:
-        
-        print(" ")
-        print(f"Sala {sala['nome_sala']}".center(60))
-        print(f"Nome da sala: {sala['nome_sala']}")
-        print(f"Número de matrícula da sala: {sala['sala_id']}")
-        print(f"Número de assentos nessa sala: {sala['numero_assentos']}")
-        print(f"Número de sessões nessa sala: {sala['quantidade_sessoes']}")
+    
+    while sala_encontrada is None: 
+       
+        print(f"o filme escolhido é: {filme_escolhido['nome']}".upper())
         print("-" * 60)
         
+        for sala in salas:
+            
+            print(" ")
+            print(f"Sala {sala['nome_sala']}".center(60))
+            print(f"Nome da sala: {sala['nome_sala']}")
+            print(f"Número de matrícula da sala: {sala['sala_id']}")
+            print(f"Número de assentos nessa sala: {sala['numero_assentos']}")
+            print(f"Número de sessões nessa sala: {sala['quantidade_sessoes']}")
+            print("-" * 60)
+        
         mostra_sessao(sala)
+        try:
+            print("-" * 60)
+            resposta = int(input("Digite o Id da sala que você pretende colocar o filme: "))
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            
+            sala_encontrada = buscar_sala(resposta, salas)
+            
+            if sala_encontrada is not None:
+                print(f"sala {sala_encontrada['nome_sala']}: ".upper())
+                mostra_sessao(sala_encontrada)
+            else:
+                u_a.limpar_console()
+                u_a.cabecalho_cinemax()
+                print("Essa sala não exite!".center(60))
+                print("-" * 60)
+                print(" ")
+        except ValueError:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            u_a.msg_numero_valido()
+            input("Pressione Enter para tentar novamente...")
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            
+    return sala_encontrada
+
+def mostra_sessao_para_colocar_filme(filme_escolhido, sala_encontrada):
     
-    while True:   
-        resposta = int(input("Digite o Id da sala que você pretende colocar o filme: "))
-        u_a.limpar_console()
-        u_a.cabecalho_cinemax()
+    sessao_encontrada = None
         
-        sala_encontrada = buscar_sala(resposta, salas)
-        
-        print(f"sala {sala_encontrada['nome_sala']}: ".upper())
-        mostra_sessao(sala_encontrada)
-        
-        resposta_sessao = int(input("Digite o ID da sessão que você deseja colocar o filme: "))
-        
-        sessao_encontrada = buscar_sessao(resposta_sessao, sala_encontrada)
-        
-        sessao_encontrada['filme_escolhido'] = filme_escolhido
-        salvar_salas(salas)
-        
-        if input("Deseja colocar mais algum filme em alguma sessão? [S/N]").upper() == "S":
-            pass
-        else:
-            break
+    while sessao_encontrada is None:
+        try:
+            resposta_sessao = int(input("Digite o ID da sessão que você deseja colocar o filme: "))
+                
+            sessao_encontrada = buscar_sessao(resposta_sessao, sala_encontrada)
+            
+            if sessao_encontrada is not None:
+                sessao_encontrada['filme_escolhido'] = filme_escolhido
+                sessao_encontrada['disponibilidade'] = False
+                salvar_salas(salas)
+                print("Filme adicionado a sessão com sucesso!".center(60))
+                input("Enter...")
+            else:
+                u_a.limpar_console()
+                u_a.cabecalho_cinemax()
+                print("Essa sessão não existe!".center(60))
+                print("-" * 60)
+                print(" ")
+                mostra_sessao(sala_encontrada)
+        except:
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            u_a.msg_numero_valido()
+            input("Pressione Enter para tentar novamente...")
+            u_a.limpar_console()
+            u_a.cabecalho_cinemax()
+            mostra_sessao(sala_encontrada)
+
+def colocar_filme_em_sessao(filme_escolhido):
+    
+    sala_encontrada = mostra_sala_para_colocar_filme(filme_escolhido)
+    
+    if input("Deseja continuar? [S/N]").upper() == "S":
+        mostra_sessao_para_colocar_filme(filme_escolhido, sala_encontrada)
+    else:
+        return
     
 # Funções do terminal de gerenciamento de sala selecionada
 
