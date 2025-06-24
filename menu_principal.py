@@ -79,7 +79,10 @@ while True: # loop principal
                                 m_s.colocar_filme_em_sessao(filme_escolhido)
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
-                                break
+                                u_a.cabecalho_cinemax()
+                                print("Obrigado pela preferência, volte sempre!".center(60))
+                                print("-" * 60)
+                                exit()
                             else:
                                 u_a.msg_numero_valido()
                         else:
