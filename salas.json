@@ -15,7 +15,11 @@
                 "id_sala": 1,
                 "id_sessao": 1,
                 "filme_escolhido": {
-                    "nome_filme": "Vingadores"
+                    "ID": 3,
+                    "nome": "Vingadores: Ultimato",
+                    "genero": "Super-Herói",
+                    "lancamento": 2019,
+                    "duracao": 180
                 }
             }
         ],

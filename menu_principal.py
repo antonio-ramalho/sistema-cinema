@@ -58,7 +58,6 @@ while True: # loop principal
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
                                 filmes.excluir_filme(filmes.catalogo)
-                                time.sleep(1)
                             elif resposta_admin == '3':
                                 while True:
                                     u_a.limpar_console()
@@ -76,9 +75,9 @@ while True: # loop principal
                             elif resposta_admin == '6':
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
-                                filmes.mostrar_filmes(filmes.catalogo)
-                                filme_escolhido = m_s.escolher_filme_para_sessao(filmes.catalogo)
+                                filme_escolhido = filmes.escolher_filme(filmes.catalogo)
                                 m_s.colocar_filme_em_sessao(filme_escolhido)
+                                time.sleep(1)
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 break
