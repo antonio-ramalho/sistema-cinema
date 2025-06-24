@@ -2,6 +2,7 @@
 import os
 import json
 import utils_armazenamento as u_a
+import filmes
 
 # Funções graficas de armazenamento e lista de salas
 
@@ -16,6 +17,8 @@ def salvar_salas(salas, nome_arquivo='salas.json'):
         json.dump(salas, arquivo, ensure_ascii=False, indent=4)
 
 salas = carregar_salas()
+
+catalogo_filmes = filmes.catalogo
 
 todos_os_horarios_possiveis = [
     "10:00-12:00", "12:30-14:30", "15:00-17:00", "17:30-19:30", "20:00-22:00", "22:30-00:30"
@@ -34,7 +37,7 @@ def menu_filmes():
     return menu_filmes_resposta
 
 def menu_cadastra_sessao():
-    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Excluir sessão", "[3] Sair"] 
+    menu_cadastra_sessao_opcoes = ["[1] Cadastrar sessão", "[2] Excluir sessão", "[3] Colocar filme em sessão", "[4] Sair"] 
 
     for i in menu_cadastra_sessao_opcoes:
         print(i)
@@ -390,7 +393,59 @@ def excluir_sessao(sala_encontrada, salas_data):
     else:
         u_a.limpar_console()
         print("Essa sessão ainda não existe.".center(60))
+
+def escolher_filme_para_sessao(filmes):
+    
+    escolha = input("Digite o nome do filme que você escolheu: ")
+    
+    filme_escolhido_nome = None
+    
+    for filme in filmes:
+        if escolha == filme['nome']:
+            filme_escolhido_nome = filme['nome']
+            break
+    
+    return {
+        'nome_filme': filme_escolhido_nome,
+    }
+    
+def colocar_filme_em_sessao(filme_escolhido):
+    u_a.limpar_console()
+    u_a.cabecalho_cinemax()
+    for sala in salas:
         
+        print(" ")
+        print(f"Sala {sala['nome_sala']}".center(60))
+        print(f"Nome da sala: {sala['nome_sala']}")
+        print(f"Número de matrícula da sala: {sala['sala_id']}")
+        print(f"Número de assentos nessa sala: {sala['numero_assentos']}")
+        print(f"Número de sessões nessa sala: {sala['quantidade_sessoes']}")
+        print("-" * 60)
+        
+        mostra_sessao(sala)
+    
+    while True:   
+        resposta = int(input("Digite o Id da sala que você pretende colocar o filme: "))
+        u_a.limpar_console()
+        u_a.cabecalho_cinemax()
+        
+        sala_encontrada = buscar_sala(resposta, salas)
+        
+        print(f"sala {sala_encontrada['nome_sala']}: ".upper())
+        mostra_sessao(sala_encontrada)
+        
+        resposta_sessao = int(input("Digite o ID da sessão que você deseja colocar o filme: "))
+        
+        sessao_encontrada = buscar_sessao(resposta_sessao, sala_encontrada)
+        
+        sessao_encontrada['filme_escolhido'] = filme_escolhido
+        salvar_salas(salas)
+        
+        if input("Deseja colocar mais algum filme em alguma sessão? [S/N]").upper() == "S":
+            pass
+        else:
+            break
+    
 # Funções do terminal de gerenciamento de sala selecionada
 
 def gerenciar_sala_selecionada(sala_selecionada_id, salas_data):
@@ -441,7 +496,7 @@ def gerenciar_sala_selecionada(sala_selecionada_id, salas_data):
                 else:
                     u_a.cabecalho_cinemax()
                     mostra_sessao(sala_encontrada) 
-            elif menu_cadastra_sessao_resposta == "2": 
+            elif menu_cadastra_sessao_resposta == "2": # Excluir sessão
                 u_a.limpar_console()
                 u_a.cabecalho_cinemax()
                 excluir_sessao(sala_encontrada, salas_data)

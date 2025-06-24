@@ -73,6 +73,12 @@ while True: # loop principal
                                 time.sleep(1)
                             elif resposta_admin == '5':
                                 m_s.modulo_filmes_salas()
+                            elif resposta_admin == '6':
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                filmes.mostrar_filmes(filmes.catalogo)
+                                filme_escolhido = m_s.escolher_filme_para_sessao(filmes.catalogo)
+                                m_s.colocar_filme_em_sessao(filme_escolhido)
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 break

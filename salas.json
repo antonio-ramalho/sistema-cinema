@@ -13,7 +13,10 @@
                 "tempo_sessao": 100,
                 "numero_assentos": 50,
                 "id_sala": 1,
-                "id_sessao": 1
+                "id_sessao": 1,
+                "filme_escolhido": {
+                    "nome_filme": "Vingadores"
+                }
             }
         ],
         "horarios_ocupados": [
