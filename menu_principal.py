@@ -46,10 +46,11 @@ while True: # loop principal
 
                     while True:
                         if eh_admin == True:
+                            dados_completos = usuarios[usuario_logado]
                             u_a.limpar_console()
                             u_a.cabecalho_cinemax()
                             print('O que deseja fazer?')
-                            resposta_admin = u_a.escolha_admin()
+                            resposta_admin = u_a.escolha_admin(dados_completos)
                             if resposta_admin == '1': #Cadastrar Filme
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
@@ -93,8 +94,34 @@ while True: # loop principal
                         else:
                             dados_completos = usuarios[usuario_logado]
                             dados_completos['cpf'] = usuario_logado
-                            usuario.iniciar_sessao_usuario(dados_completos)
-                            break
+                            u_a.limpar_console()
+                            u_a.cabecalho_cinemax()
+                            resposta_usuario = u_a.escolha_usuario(dados_completos)
+                            if resposta_usuario == '1':
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                usuario.comprar_ingresso(dados_completos)
+                            elif resposta_usuario == '2':
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                usuario.ver_historico(dados_completos)
+                            elif resposta_usuario == "3":
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                usuario.avaliar_filme(dados_completos)
+                            elif resposta_usuario == "4":
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                usuario.modifica_propria_conta(dados_completos)
+                            elif resposta_usuario == "5":
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                print("\nSaindo da sua conta...")
+                                u_a.input_continuar()
+                                u_a.limpar_console()
+                                break
+                            else:
+                                u_a.msg_numero_valido
             elif escolha == "2": #Cadastrar Usuário
                 u_a.limpar_console
                 u_a.cabecalho_cinemax

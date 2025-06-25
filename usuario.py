@@ -186,36 +186,3 @@ def modifica_propria_conta(dados_usuario):
     dados.salvar_usuarios(usuarios)
     print("\nSuas informações foram salvas.")
     u_a.input_continuar()
-
-# --- A FUNÇÃO PRINCIPAL DO MÓDULO (CHAMADA PELO MAIN) ---
-
-# Menu principal para o cliente logado.
-def iniciar_sessao_usuario(dados_usuario):
-    while True:
-        u_a.limpar_console()
-        u_a.cabecalho_cinemax()
-        print(f"Bem-vindo(a), {dados_usuario['nome']}!")
-        print("\n--- MENU DE USUÁRIO ---")
-        print("[1] Comprar Ingresso")
-        print("[2] Ver Meu Histórico de Compras")
-        print("[3] Avaliar um Filme")
-        print("[4] Modificar Meus Dados")
-        print("[5] Sair")
-
-        resposta_menu = input("\nDigite sua escolha: ")
-
-        if resposta_menu == "1":
-            comprar_ingresso(dados_usuario)
-        elif resposta_menu == "2":
-            ver_historico(dados_usuario)
-        elif resposta_menu == "3":
-            avaliar_filme(dados_usuario)
-        elif resposta_menu == "4":
-            modifica_propria_conta(dados_usuario)
-        elif resposta_menu == "5":
-            print("\nSaindo da sua conta...")
-            u_a.input_continuar()
-            break
-        else:
-            u_a.msg_numero_valido()
-            u_a.input_continuar()

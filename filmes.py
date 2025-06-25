@@ -1,12 +1,22 @@
 import json
 import os
 
-#Função para carregar os livros do arquivo
+#Função para carregar os filmes do arquivo
 def carregar_filmes(nome_arquivo='filmes.json'):
     if os.path.exists(nome_arquivo):
         with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
             return json.load(arquivo)
     return []
+
+#Função para carregar as avaliações
+def carregar_avaliacoes(nome_arquivo='avaliacoes.json'):
+    if os.path.exists(nome_arquivo):
+        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+            try:
+                return json.load(arquivo)
+            except json.JSONDecodeError:
+                return {}
+    return {}
 
 #Função para salvar os filmes no arquivo
 def salvar_filmes(catalogo, nome_arquivo='filmes.json'):
@@ -121,15 +131,34 @@ def excluir_filme(catalogo):
 
 #Função para mostrar o catálogo
 def mostrar_filmes(catalogo):
-    for filme in catalogo:
-        print(' ')
-        print(f'ID: {filme['ID']}')
-        print(f'Nome: {filme['nome']}')
-        print(f'Gênero: {filme['genero']}')
-        print(f'Ano de Lançamento: {filme['lancamento']}')
-        print(f'Duração: {((filme['duracao'])//60)}h {((filme['duracao'])%60)}min')
-        print(' ')
+    """
+    Exibe todos os filmes do catálogo com suas informações, incluindo a nota média.
+    """
+    avaliacoes = carregar_avaliacoes()
 
+    if not catalogo:
+        print("\nNenhum filme cadastrado no momento.")
+
+    for filme in catalogo:
+        id_filme = str(filme['ID'])
+
+        lista_de_notas = avaliacoes.get(id_filme, [])
+        
+        if lista_de_notas:
+            media_notas = sum(lista_de_notas) / len(lista_de_notas)
+            nota = f"{media_notas:.1f} / 5.0"
+        else:
+            nota = "Não avaliado"
+
+        print(' ')
+        print(f"ID: {filme['ID']}")
+        print(f"Nome: {filme['nome']}")
+        print(f"Gênero: {filme['genero']}")
+        print(f"Ano de Lançamento: {filme['lancamento']}")
+        print(f"Duração: {(filme['duracao'] // 60)}h {(filme['duracao'] % 60)}min")
+        print(f"Nota: {nota}")
+        print(' ')
+        
 #Função para escolher filme
 
 def escolher_filme(catalogo):
