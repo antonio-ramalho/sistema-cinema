@@ -1,7 +1,7 @@
-# usuario.py (Versão Final com Documentação)
-
 import dados
 import utils as u_a
+
+# --- FUNÇÕES AUXILIARES (usadas por outras funções, não aparecem no menu) ---
 
 # Mostra os filmes e lida com a escolha do usuário.
 def _escolher_filme(catalogo):
@@ -57,6 +57,8 @@ def _escolher_assento(sessao_escolhida):
         elif assento in assentos_ocupados: print(f"❌ O assento {assento} já está ocupado.")
         else: return assento
 
+# --- Funções do Menu do Cliente ---
+
 # Orquestra o fluxo completo de compra de ingresso.
 def comprar_ingresso(dados_usuario):
     filme_selecionado = _escolher_filme(dados.carregar_filmes())
@@ -75,7 +77,25 @@ def comprar_ingresso(dados_usuario):
     confirm = input("\nConfirmar compra? (s/n): ").lower()
 
     if confirm == 's':
-        # (Lógica para salvar a compra em 3 lugares diferentes)
+        usuarios = dados.carregar_usuarios()
+        if 'historico' not in usuarios[dados_usuario['cpf']]: usuarios[dados_usuario['cpf']]['historico'] = []
+        compra = {"filme": filme_selecionado['nome'], "data_compra": "25/06/2025", "sala": sessao_selecionada['sala_sessao'], "horario": sessao_selecionada['horario_inicio'], "assento": assento_escolhido}
+        usuarios[dados_usuario['cpf']]['historico'].append(compra)
+        dados.salvar_usuarios(usuarios)
+
+        salas = dados.carregar_salas()
+        for s in salas:
+            for sess in s.get('sessoes_associadas', []):
+                if sess.get('id_sessao') == sessao_selecionada.get('id_sessao') and sess.get('id_sala') == sessao_selecionada.get('id_sala'):
+                    if 'assentos_ocupados' not in sess: sess['assentos_ocupados'] = []
+                    sess['assentos_ocupados'].append(assento_escolhido)
+                    break
+        dados.salvar_salas(salas)
+
+        bilhetes = dados.carregar_bilhetes()
+        novo_bilhete = { "cpf": dados_usuario['cpf'], "filme": filme_selecionado['nome'], "quantidade": 1, "preco": 30.00 }
+        bilhetes.append(novo_bilhete)
+        dados.salvar_bilhetes(bilhetes)
         print("\n✅ Compra realizada com sucesso!")
     else:
         print("\nCompra cancelada.")
@@ -99,19 +119,75 @@ def ver_historico(dados_usuario):
 def avaliar_filme(dados_usuario):
     u_a.limpar_console()
     u_a.cabecalho_cinemax()
-    print("--- AVALIAR UM FILME ---")
-    # (Lógica completa de avaliar_filme que já fizemos antes)
-    print("\nFunção de avaliar filme está aqui.")
+    print("--- AVALIAR UM FILME ---".center(60))
+    historico = dados_usuario.get('historico', [])
+    if not historico:
+        print("\nVocê precisa ter comprado um ingresso antes de poder avaliar um filme.")
+        u_a.input_continuar()
+        return
+
+    filmes_no_historico = sorted(list(set(compra['filme'] for compra in historico)))
+    for i, nome_filme in enumerate(filmes_no_historico):
+        print(f"[{i+1}] - {nome_filme}")
+
+    try:
+        escolha = int(input("\nEscolha um filme para avaliar (ou 0 para voltar): "))
+        if escolha == 0: return
+        nome_filme_escolhido = filmes_no_historico[escolha - 1]
+        
+        catalogo_filmes = dados.carregar_filmes()
+        filme_obj = next((f for f in catalogo_filmes if f['nome'] == nome_filme_escolhido), None)
+        if not filme_obj or 'ID' not in filme_obj:
+            print("Erro: Filme não encontrado no catálogo principal.")
+            u_a.input_continuar()
+            return
+
+        id_filme = str(filme_obj['ID'])
+        filmes_ja_avaliados = dados_usuario.get('filmes_avaliados', [])
+        if int(id_filme) in filmes_ja_avaliados:
+            print("\n❌ Você já avaliou este filme.")
+            u_a.input_continuar()
+            return
+
+        nota = int(input(f"Qual nota de 1 a 5 para '{nome_filme_escolhido}'? "))
+        if not 1 <= nota <= 5: raise ValueError("Nota fora do intervalo")
+
+        avaliacoes = dados.carregar_avaliacoes()
+        lista_de_notas = avaliacoes.get(id_filme, [])
+        lista_de_notas.append(nota)
+        avaliacoes[id_filme] = lista_de_notas
+        dados.salvar_avaliacoes(avaliacoes)
+
+        usuarios = dados.carregar_usuarios()
+        if 'filmes_avaliados' not in usuarios[dados_usuario['cpf']]:
+            usuarios[dados_usuario['cpf']]['filmes_avaliados'] = []
+        usuarios[dados_usuario['cpf']]['filmes_avaliados'].append(int(id_filme))
+        dados.salvar_usuarios(usuarios)
+        
+        print("\n✅ Obrigado! Sua nota foi registrada.")
+    except (ValueError, IndexError):
+        print("\nOpção inválida.")
     u_a.input_continuar()
 
 # Permite ao usuário logado modificar seu próprio nome e senha.
 def modifica_propria_conta(dados_usuario):
     u_a.limpar_console()
     u_a.cabecalho_cinemax()
-    print("--- MODIFICAR MINHA CONTA ---")
-    # (Lógica completa de modificar_propria_conta que já fizemos antes)
-    print("\nFunção de modificar conta está aqui.")
+    print("--- MODIFICAR MINHA CONTA ---".center(60))
+    cpf_logado = dados_usuario['cpf']
+    usuarios = dados.carregar_usuarios()
+    print(f"Nome atual: {usuarios[cpf_logado]['nome']}")
+    novo_nome = input("Digite o novo nome (ou pressione Enter para manter o atual): ").strip()
+    nova_senha = input("Digite a nova senha (ou pressione Enter para manter a atual): ").strip()
+
+    if novo_nome: usuarios[cpf_logado]['nome'] = novo_nome
+    if nova_senha: usuarios[cpf_logado]['senha'] = nova_senha
+    
+    dados.salvar_usuarios(usuarios)
+    print("\nSuas informações foram salvas.")
     u_a.input_continuar()
+
+# --- A FUNÇÃO PRINCIPAL DO MÓDULO (CHAMADA PELO MAIN) ---
 
 # Menu principal para o cliente logado.
 def iniciar_sessao_usuario(dados_usuario):
