@@ -1,6 +1,9 @@
-# funções gráficas e de armazenamento usadas em todo o sistema
+# funções gráficas usadas em todo o sistema ou no sistema principal
 
 import os
+
+def input_continuar():
+    input("\nPressione Enter para continuar...")
 
 def menu_sistema(): 
     menu_escolha = ["[1] Filmes em cartaz", "[2] Entrar/Cadastrar", "[3] Sair"]

@@ -1,7 +1,7 @@
 
 import os
 import json
-import utils_armazenamento as u_a
+import utils as u_a
 import filmes
 
 # Funções graficas de armazenamento e lista de salas
@@ -400,6 +400,8 @@ def excluir_sessao(sala_encontrada, salas_data):
     else:
         u_a.limpar_console()
         print("Essa sessão ainda não existe.".center(60))
+
+# Funções de colocar sala em sessão
 
 def mostra_sala_para_colocar_filme(filme_escolhido):
     
