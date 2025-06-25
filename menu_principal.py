@@ -5,7 +5,7 @@ import modulo_salas as m_s
 import usuario
 
 import time
-
+u_a.limpar_console()
 while True: # loop principal
     u_a.cabecalho_cinemax()
     resposta = u_a.menu_sistema()
@@ -85,7 +85,11 @@ while True: # loop principal
                                     input("Digite enter...")
                                     pass
                                 else:
-                                    m_s.colocar_filme_em_sessao(filme_escolhido)
+                                    if m_s.colocar_filme_em_sessao(filme_escolhido) == False:
+                                        print("Ainda não existe uma sala cadastrada!".center(60))
+                                        print("-" * 60)
+                                        input("Digite enter...")
+                                        pass
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
