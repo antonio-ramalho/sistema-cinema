@@ -1,31 +1,45 @@
 [
   {
-    "nome_sala": "1",
+    "nome_sala": "alpha",
     "sala_id": 1,
-    "numero_assentos": 9,
+    "numero_assentos": 50,
     "quantidade_sessoes": 1,
     "sessoes_associadas": [
       {
         "sala_sessao": "alpha",
-        "id_sessao": 1,
-        "id_sala": 1,
-        "horario_inicio": "09:00",
-        "horario_termino": "10:00",
+        "horario_bloco": "10:00-12:00",
+        "horario_inicio": "10:00",
+        "horario_termino": "12:00",
         "tempo_sessao": 100,
-        "numero_assentos": 25
+        "numero_assentos": 50,
+        "id_sala": 1,
+        "id_sessao": 1,
+        "filme_escolhido": {
+          "ID": 3,
+          "nome": "Vingadores: Ultimato",
+          "genero": "Super-Herói",
+          "lancamento": 2019,
+          "duracao": 180
+        },
+        "assentos_ocupados": [
+          "A2",
+          "A1",
+          "A3",
+          "A4",
+          "A5",
+          "A6",
+          "A40"
+        ]
       }
+    ],
+    "horarios_ocupados": [
+      "10:00-12:00"
     ]
   },
   {
-    "nome_sala": "beta",
-    "sala_id": 2,
-    "numero_assentos": 50,
-    "quantidade_sessoes": 0
-  },
-  {
-    "nome_sala": "wwww",
+    "nome_sala": "omega",
     "sala_id": 3,
-    "numero_assentos": 23,
+    "numero_assentos": 50,
     "quantidade_sessoes": 0
   }
 ]

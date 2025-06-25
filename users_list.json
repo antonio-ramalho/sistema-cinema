@@ -1,13 +1,88 @@
 {
-  "11133334400": {
+  "14360143958": {
     "nome": "Breno",
-    "senha": "123",
+    "senha": "12",
     "admin": false,
     "historico": [
       {
-        "filme": "Filme de Teste",
-        "data_compra": "23/06/2025"
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A2"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A1"
+      },
+      {
+        "filme": "Filme Simulado",
+        "data_compra": "24/06/2025",
+        "sala": "Simulada",
+        "horario": "20:00",
+        "assento": "X1"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A3"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A4"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A5"
       }
+    ],
+    "filmes_avaliados": [
+      3
+    ]
+  },
+  "11174448997": {
+    "nome": "antonio",
+    "senha": "9",
+    "admin": true
+  },
+  "12345678900": {
+    "nome": "12345678900",
+    "senha": "1234",
+    "admin": true
+  },
+  "11111111111": {
+    "nome": "ana",
+    "senha": "12",
+    "admin": false,
+    "historico": [
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A6"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A40"
+      }
+    ],
+    "filmes_avaliados": [
+      3
     ]
   }
 }
