@@ -1,0 +1,14 @@
+[
+  {
+    "cpf": "14360143958",
+    "filme": "Vingadores: Ultimato",
+    "quantidade": 1,
+    "preco": 30.0
+  },
+  {
+    "cpf": "11111111111",
+    "filme": "A branca de neve",
+    "quantidade": 1,
+    "preco": 30.0
+  }
+]

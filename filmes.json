@@ -1,0 +1,23 @@
+[
+    {
+        "ID": 3,
+        "nome": "Vingadores: Ultimato",
+        "genero": "Super-Herói",
+        "lancamento": 2019,
+        "duracao": 180
+    },
+    {
+        "ID": 4,
+        "nome": "A branca de neve",
+        "genero": "Desenho animado",
+        "lancamento": 1950,
+        "duracao": 120
+    },
+    {
+        "ID": 5,
+        "nome": "Star wars",
+        "genero": "ficção científica",
+        "lancamento": 1977,
+        "duracao": 120
+    }
+]
