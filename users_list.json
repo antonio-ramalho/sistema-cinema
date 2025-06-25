@@ -1,8 +1,67 @@
 {
   "14360143958": {
-    "nome": "Lucas",
-    "senha": "1234",
-    "admin": false
+    "nome": "Breno",
+    "senha": "12",
+    "admin": false,
+    "historico": [
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A2"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A1"
+      },
+      {
+        "filme": "Filme Simulado",
+        "data_compra": "24/06/2025",
+        "sala": "Simulada",
+        "horario": "20:00",
+        "assento": "X1"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A3"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A4"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A5"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "12:30",
+        "assento": "A6"
+      },
+      {
+        "filme": "Filme Simulado",
+        "data_compra": "24/06/2025",
+        "sala": "Simulada",
+        "horario": "20:00",
+        "assento": "X1"
+      }
+    ],
+    "filmes_avaliados": [3]
   },
   "11174448997": {
     "nome": "antonio",
@@ -13,5 +72,34 @@
     "nome": "12345678900",
     "senha": "1234",
     "admin": true
+  },
+  "11111111111": {
+    "nome": "ana",
+    "senha": "12",
+    "admin": false,
+    "historico": [
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A6"
+      },
+      {
+        "filme": "Vingadores: Ultimato",
+        "data_compra": "24/06/2025",
+        "sala": "alpha",
+        "horario": "10:00",
+        "assento": "A40"
+      },
+      {
+        "filme": "Filme Simulado",
+        "data_compra": "24/06/2025",
+        "sala": "Simulada",
+        "horario": "20:00",
+        "assento": "X1"
+      }
+    ],
+    "filmes_avaliados": [3]
   }
 }

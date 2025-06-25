@@ -16,11 +16,11 @@
                 "disponibilidade": false,
                 "id_sessao": 1,
                 "filme_escolhido": {
-                    "ID": 3,
-                    "nome": "Vingadores: Ultimato",
-                    "genero": "Super-Herói",
-                    "lancamento": 2019,
-                    "duracao": 180
+                    "ID": 4,
+                    "nome": "A branca de neve",
+                    "genero": "Desenho animado",
+                    "lancamento": 1950,
+                    "duracao": 120
                 }
             },
             {
@@ -34,12 +34,15 @@
                 "disponibilidade": false,
                 "id_sessao": 2,
                 "filme_escolhido": {
-                    "ID": 3,
-                    "nome": "Vingadores: Ultimato",
-                    "genero": "Super-Herói",
-                    "lancamento": 2019,
-                    "duracao": 180
-                }
+                    "ID": 4,
+                    "nome": "A branca de neve",
+                    "genero": "Desenho animado",
+                    "lancamento": 1950,
+                    "duracao": 120
+                },
+                "assentos_ocupados": [
+                    "A6"
+                ]
             }
         ],
         "horarios_ocupados": [

@@ -1,7 +1,8 @@
 import filmes
-import utils_armazenamento as u_a
+import utils as u_a
 import admin
 import modulo_salas as m_s
+import usuario
 
 import time
 
@@ -86,8 +87,10 @@ while True: # loop principal
                             else:
                                 u_a.msg_numero_valido()
                         else:
-                            #FUNÇÕES DO CLIENTE
-                            pass
+                            dados_completos = usuarios[usuario_logado]
+                            dados_completos['cpf'] = usuario_logado
+                            usuario.iniciar_sessao_usuario(dados_completos)
+                            break
             elif escolha == "2": #Cadastrar Usuário
                 u_a.limpar_console
                 u_a.cabecalho_cinemax
