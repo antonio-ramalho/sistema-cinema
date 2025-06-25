@@ -100,10 +100,18 @@
         "sala": "Simulada",
         "horario": "20:00",
         "assento": "X1"
+      },
+      {
+        "filme": "A branca de neve",
+        "data_compra": "25/06/2025",
+        "sala": "alpha",
+        "horario": "12:30",
+        "assento": "A7"
       }
     ],
     "filmes_avaliados": [
-      3
+      3,
+      4
     ]
   }
 }
