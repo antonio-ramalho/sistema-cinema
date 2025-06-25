@@ -91,9 +91,24 @@ def exclui_usuario():
 
 def listar_usuarios():
     usuarios = carregar_usuarios()
-    print("\n--- Lista de Usuários no Sistema ---")
-    for cpf, dados in usuarios.items():
-        print(f"CPF: {cpf}, Dados: {dados}")
+    print("--- Lista de Usuários no Sistema ---".center(60))
+    print("-" * 60)
+    for cpf, usuario in usuarios.items():
+        print(f"Nome do usuário: {usuario['nome']}")
+        print(f"Cpf do(a) {usuario['nome']}: {cpf}")
+        
+        if 'historico' in usuario: 
+            print(f"Número de compras recentes do {usuario['nome']}: {len(usuario['historico'])}")
+        else:
+            print(f"Número de compras recentes do {usuario['nome']}: Não fez nenhuma compra recente")
+        
+        if 'filmes_avaliados' in usuario: 
+            print(f"Número de filmes avaliados: {usuario['filmes_avaliados']}")   
+        else:
+            print("Número de filmes avaliados: Ainda não avaliou nenhum filme")
+        print("-" * 60)
+        print(" ")
+      
 
 def login():
     usuarios = carregar_usuarios() 

@@ -12,5 +12,12 @@
         "genero": "Desenho animado",
         "lancamento": 1950,
         "duracao": 120
+    },
+    {
+        "ID": 5,
+        "nome": "Star wars",
+        "genero": "ficção científica",
+        "lancamento": 1977,
+        "duracao": 120
     }
 ]

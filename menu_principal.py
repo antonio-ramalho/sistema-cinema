@@ -64,6 +64,7 @@ while True: # loop principal
                                     u_a.limpar_console()
                                     u_a.cabecalho_cinemax()
                                     admin.listar_usuarios()
+                                    
                                     if input('Digite 0 para sair ') == '0':
                                         break
                             elif resposta_admin == '4':
@@ -77,7 +78,10 @@ while True: # loop principal
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
                                 filme_escolhido = filmes.escolher_filme(filmes.catalogo)
-                                m_s.colocar_filme_em_sessao(filme_escolhido)
+                                if filme_escolhido == None:
+                                    pass
+                                else:
+                                    m_s.colocar_filme_em_sessao(filme_escolhido)
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
