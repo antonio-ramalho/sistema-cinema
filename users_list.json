@@ -1,0 +1,12 @@
+{
+  "11174448997": {
+    "nome": "Antonio",
+    "senha": "1234",
+    "admin": true
+  },
+  "12345678900": {
+    "nome": "Julius",
+    "senha": "9087",
+    "admin": false
+  }
+}

@@ -1,0 +1,24 @@
+[
+    {
+        "nome_sala": "Sala 01",
+        "sala_id": 1,
+        "numero_assentos": 50,
+        "quantidade_sessoes": 1,
+        "sessoes_associadas": [
+            {
+                "sala_sessao": "Sala 01",
+                "horario_bloco": "10:00-12:00",
+                "horario_inicio": "10:00",
+                "horario_termino": "12:00",
+                "tempo_sessao": 136,
+                "numero_assentos": 50,
+                "id_sala": 1,
+                "disponibilidade": true,
+                "id_sessao": 1
+            }
+        ],
+        "horarios_ocupados": [
+            "10:00-12:00"
+        ]
+    }
+]
