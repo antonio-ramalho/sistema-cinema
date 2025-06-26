@@ -1,4 +1,5 @@
- {
+[
+    {
         "nome_sala": "Sala 01",
         "sala_id": 1,
         "numero_assentos": 50,

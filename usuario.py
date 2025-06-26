@@ -1,7 +1,7 @@
 import dados
 import utils as u_a
 
-# --- FUNÇÕES AUXILIARES (usadas por outras funções, não aparecem no menu) ---
+
 
 # Mostra os filmes e lida com a escolha do usuário.
 def _escolher_filme(catalogo):
@@ -18,9 +18,9 @@ def _escolher_filme(catalogo):
             escolha = int(input("\nDigite o número do filme (ou 0 para voltar): "))
             if escolha == 0: return None
             if 1 <= escolha <= len(catalogo): return catalogo[escolha - 1]
-            else: print("❌ Opção inválida.")
+            else: print(" Opção inválida.")
         except ValueError:
-            print("❌ Por favor, digite um número.")
+            print(" Por favor, digite um número.")
 
 # Mostra as sessões para um filme e lida com a escolha.
 def _escolher_sessao(filme_escolhido):
@@ -40,9 +40,9 @@ def _escolher_sessao(filme_escolhido):
             escolha = int(input("\nDigite o número da sessão (ou 0 para voltar): "))
             if escolha == 0: return None
             if 1 <= escolha <= len(sessoes_disponiveis): return sessoes_disponiveis[escolha - 1]
-            else: print("❌ Opção inválida.")
+            else: print(" Opção inválida.")
         except ValueError:
-            print("❌ Por favor, digite um número.")
+            print(" Por favor, digite um número.")
 
 # Lida com a escolha de um assento vago.
 def _escolher_assento(sessao_escolhida):
@@ -53,11 +53,10 @@ def _escolher_assento(sessao_escolhida):
     while True:
         assento = input("Digite o assento desejado (ex: A5) ou '0' para voltar: ").upper()
         if assento == '0': return None
-        if not assento: print("❌ Por favor, digite um assento.")
-        elif assento in assentos_ocupados: print(f"❌ O assento {assento} já está ocupado.")
+        if not assento: print(" Por favor, digite um assento.")
+        elif assento in assentos_ocupados: print(f" O assento {assento} já está ocupado.")
         else: return assento
 
-# --- Funções do Menu do Cliente ---
 
 # Orquestra o fluxo completo de compra de ingresso.
 def comprar_ingresso(dados_usuario):
@@ -96,7 +95,7 @@ def comprar_ingresso(dados_usuario):
         novo_bilhete = { "cpf": dados_usuario['cpf'], "filme": filme_selecionado['nome'], "quantidade": 1, "preco": 30.00 }
         bilhetes.append(novo_bilhete)
         dados.salvar_bilhetes(bilhetes)
-        print("\n✅ Compra realizada com sucesso!")
+        print("\n Compra realizada com sucesso!")
     else:
         print("\nCompra cancelada.")
     u_a.input_continuar()
@@ -149,7 +148,7 @@ def avaliar_filme(dados_usuario):
         id_filme = str(filme_obj['ID'])
         filmes_ja_avaliados = dados_usuario.get('filmes_avaliados', [])
         if int(id_filme) in filmes_ja_avaliados:
-            print("\n❌ Você já avaliou este filme.")
+            print("\n Você já avaliou este filme.")
             u_a.input_continuar()
             return
 
@@ -168,7 +167,7 @@ def avaliar_filme(dados_usuario):
         usuarios[dados_usuario['cpf']]['filmes_avaliados'].append(int(id_filme))
         dados.salvar_usuarios(usuarios)
         
-        print("\n✅ Obrigado! Sua nota foi registrada.")
+        print("\n Obrigado! Sua nota foi registrada.")
     except (ValueError, IndexError):
         print("\nOpção inválida.")
     u_a.input_continuar()

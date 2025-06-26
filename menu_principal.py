@@ -3,9 +3,9 @@ import utils as u_a
 import admin
 import modulo_salas as m_s
 import usuario
-
+import dados
 import time
-u_a.limpar_console()
+
 while True: # loop principal
     u_a.cabecalho_cinemax()
     resposta = u_a.menu_sistema()
@@ -41,7 +41,7 @@ while True: # loop principal
                 u_a.cabecalho_cinemax()
                 usuario_logado = admin.login()
                 if usuario_logado:
-                    usuarios = admin.carregar_usuarios()
+                    usuarios = dados.carregar_usuarios()
                     eh_admin = usuarios[usuario_logado]['admin']
 
                     while True:
@@ -85,17 +85,24 @@ while True: # loop principal
                                     input("Digite enter...")
                                     pass
                                 else:
-                                    if m_s.colocar_filme_em_sessao(filme_escolhido) == False:
-                                        print("Ainda não existe uma sala cadastrada!".center(60))
-                                        print("-" * 60)
-                                        input("Digite enter...")
-                                        pass
+                                    m_s.colocar_filme_em_sessao(filme_escolhido)
+
+                            elif resposta_admin == '7': 
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                admin.definir_preco_filme()
+                            
+                            elif resposta_admin == '8': 
+                                u_a.limpar_console()
+                                u_a.cabecalho_cinemax()
+                                admin.mostrar_relatorios()
+
                             elif resposta_admin == '0':
                                 u_a.limpar_console()
                                 u_a.cabecalho_cinemax()
                                 print("Obrigado pela preferência, volte sempre!".center(60))
                                 print("-" * 60)
-                                exit()
+                                break
                             else:
                                 u_a.msg_numero_valido()
                         else:

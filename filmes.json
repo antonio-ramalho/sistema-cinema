@@ -1,9 +1,10 @@
 [
-    {
-        "ID": 1,
-        "nome": "Star Wars o despertar da força",
-        "genero": "Ficção científica",
-        "lancamento": 2015,
-        "duracao": 136
-    }
+  {
+    "ID": 1,
+    "nome": "Star Wars o despertar da força",
+    "genero": "Ficção científica",
+    "lancamento": 2015,
+    "duracao": 136,
+    "preco": 56.0
+  }
 ]
